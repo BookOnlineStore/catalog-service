@@ -7,6 +7,14 @@ server:
       max: 50
     keep-alive-timeout: 15s
     connection-timeout: 2s
+
 spring:
   application:
     name: catalog-service
+  datasource:
+    url: jdbc:postgresql://localhost:5432/bookshopdb_catalog
+    username: user
+    password: password
+    hikari:
+      connection-timeout: 2000 #ms
+      maximum-pool-size: 5
