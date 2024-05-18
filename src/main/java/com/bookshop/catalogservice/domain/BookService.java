@@ -30,17 +30,14 @@ public class BookService {
 
     public Book addBookToCatalog(Book book) {
         if (bookRepository.existsByIsbn(book.isbn())) {
-            log.info("Book with isbn {} already exists, can not create!.", book.isbn());
             throw new BookAlreadyExistsException(book.isbn());
         }
-        log.info("Book with isbn {} created successfully!. ID generated: {}", book.isbn(), book.id());
         return bookRepository.save(book);
     }
 
     public Book editBookDetail(String isbn, Book book) {
         return bookRepository.findByIsbn(isbn)
                 .map(bookPersist -> {
-                    log.info("Book with isbn {} found.", isbn);
                     var bookUpdate = new Book(
                             bookPersist.id(),
                             bookPersist.isbn(),
@@ -55,10 +52,7 @@ public class BookService {
                     );
                     return bookRepository.save(bookUpdate);
                 })
-                .orElseThrow(() -> {
-                    log.info("Book with isbn {} not found.", isbn);
-                    return new BookNotFoundException(isbn);
-                });
+                .orElseThrow(() -> new BookNotFoundException(isbn));
     }
 
     public void removeBookFromCatalog(String isbn) {
