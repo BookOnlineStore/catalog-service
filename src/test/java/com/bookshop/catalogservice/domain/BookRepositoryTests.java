@@ -2,6 +2,7 @@ package com.bookshop.catalogservice.domain;
 
 import com.bookshop.catalogservice.config.DataConfig;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.jdbc.DataJdbcTest;
@@ -24,6 +25,11 @@ public class BookRepositoryTests {
 
     @Autowired
     private JdbcAggregateTemplate jdbcAggregateTemplate;
+
+    @AfterEach
+    public void clear() {
+        bookRepository.deleteAll();
+    }
 
     @Test
     void findAllBook() {
