@@ -12,3 +12,13 @@
 |                 |          |          | `404`  |           | No book with the given ISBN exists to update. |
 |                 |          |          | `400`  |           | Book to update is invalid                     |
 | `/books/{isbn}` | `DELETE` |          | `204`  |           | Delete the book with the given ISBN.          |
+
+## Useful Commands
+
+| Gradle Command	         | Description                                   |
+|:---------------------------|:----------------------------------------------|
+| `./gradlew bootRun`        | Run the application.                          |
+| `./gradlew build`          | Build the application.                        |
+| `./gradlew test`           | Run tests.                                    |
+| `./gradlew bootJar`        | Package the application as a JAR.             |
+| `./gradlew bootBuildImage` | Package the application as a container image. |
