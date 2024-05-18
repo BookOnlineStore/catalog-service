@@ -19,6 +19,18 @@ spec:
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 9001
+          livenessProbe:
+            httpGet:
+              port: 9001
+              path: /actuator/health/liveness
+            initialDelaySeconds: 10
+            periodSeconds: 5
+          readinessProbe:
+            httpGet:
+              port: 9001
+              path: /actuator/health/readiness
+            initialDelaySeconds: 5
+            periodSeconds: 15
           env: # env for development
             - name: BPL_JVM_THREAD_COUNT
               value: "50"

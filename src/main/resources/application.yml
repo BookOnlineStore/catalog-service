@@ -20,3 +20,25 @@ spring:
     hikari:
       connection-timeout: 2000 #ms
       maximum-pool-size: 5
+
+info:
+  system: Bookstore System
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: info, health
+  endpoint:
+    health:
+      probes:
+        enabled: true
+      show-details: always
+      show-components: always
+  info:
+    os:
+      enabled: true
+    java:
+      enabled: true
+    env:
+      enabled: true
