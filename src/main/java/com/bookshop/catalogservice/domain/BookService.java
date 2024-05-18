@@ -1,12 +1,15 @@
 package com.bookshop.catalogservice.domain;
 
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
 public class BookService {
 
+    private static final Logger log = LoggerFactory.getLogger(BookService.class);
     private final BookRepository bookRepository;
 
     public Iterable<Book> getAllBook () {
@@ -15,7 +18,14 @@ public class BookService {
 
     public Book getBookByIsbn(String isbn) {
         return bookRepository.findByIsbn(isbn)
-                .orElseThrow(() -> new BookNotFoundException(isbn));
+                .map(bookExists -> {
+                    log.info("Book with isbn {} found.", isbn);
+                    return bookExists;
+                })
+                .orElseThrow(() -> {
+                    log.info("Book with isbn {} not found.", isbn);
+                    return new BookNotFoundException(isbn);
+                });
     }
 
     public Book addBookToCatalog(Book book) {

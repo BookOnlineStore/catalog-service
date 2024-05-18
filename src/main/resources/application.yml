@@ -11,6 +11,8 @@ server:
 spring:
   application:
     name: catalog-service
+  profiles:
+    active: datatest
   datasource:
     url: jdbc:postgresql://localhost:5432/bookshopdb_catalog
     username: user
