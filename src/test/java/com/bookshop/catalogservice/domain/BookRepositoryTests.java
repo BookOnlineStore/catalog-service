@@ -41,8 +41,8 @@ public class BookRepositoryTests {
 
     @Test
     void findBookByIsbn() {
-        var book1 = Book.of("1234567890", "Title 1", "Author 1", 9.90);
-        var book2 = Book.of("1234567891", "Title 2", "Author 2", 9.90);
+        var book1 = Book.of("1234567892", "Title 1", "Author 1", 9.90);
+        var book2 = Book.of("1234567893", "Title 2", "Author 2", 9.90);
         jdbcAggregateTemplate.save(book1);
         jdbcAggregateTemplate.save(book2);
 
@@ -54,8 +54,8 @@ public class BookRepositoryTests {
 
     @Test
     void deleteBookByIsbn() {
-        var book1 = Book.of("1234567890", "Title 1", "Author 1", 9.90);
-        var book2 = Book.of("1234567891", "Title 2", "Author 2", 9.90);
+        var book1 = Book.of("1234567894", "Title 1", "Author 1", 9.90);
+        var book2 = Book.of("1234567895", "Title 2", "Author 2", 9.90);
         jdbcAggregateTemplate.save(book1);
         jdbcAggregateTemplate.save(book2);
 
