@@ -14,7 +14,7 @@ spring:
   profiles:
     active: datatest
   datasource:
-    url: jdbc:postgresql://localhost:5432/bookshopdb_catalog
+    url: jdbc:postgresql://localhost:5432/bookstoredb_catalog
     username: user
     password: password
     hikari:
