@@ -21,9 +21,11 @@ spring:
       connection-timeout: 2000 #ms
       maximum-pool-size: 5
 
+# Info system
 info:
-  system: Bookstore System
+  system: Bookstore system
 
+# Actuator
 management:
   endpoints:
     web:
