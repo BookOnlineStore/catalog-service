@@ -1,3 +1,8 @@
 spring:
   datasource:
     url: jdbc:postgresql://bookstore-postgres/bookstoredb_catalog
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://bookstore-keycloak/realms/BookOnlineStore
