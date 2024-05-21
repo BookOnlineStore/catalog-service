@@ -38,4 +38,21 @@ public class BookControllerTests {
         ).andExpect(MockMvcResultMatchers.status().isNoContent());
     }
 
+    @Test
+    void whenDeleteBookWithCustomerThenReturn403() throws Exception {
+        var isbn = "1234567890";
+        mockMvc.perform(MockMvcRequestBuilders.delete("/books/" + isbn)
+                .with(SecurityMockMvcRequestPostProcessors.jwt()
+                        .authorities(new SimpleGrantedAuthority("ROLE_customer"))
+                )
+        ).andExpect(MockMvcResultMatchers.status().isForbidden());
+    }
+
+    @Test
+    void whenDeleteBookNotAuthenticatedThenReturn401() throws Exception {
+        var isbn = "1234567890";
+        mockMvc.perform(MockMvcRequestBuilders.delete("/books/" + isbn))
+                .andExpect(MockMvcResultMatchers.status().isUnauthorized());
+    }
+
 }
