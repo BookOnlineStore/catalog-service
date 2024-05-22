@@ -29,13 +29,14 @@ spring:
 # Info system
 info:
   system: Bookstore system
+  custom: ${bookstore.greet}
 
 # Actuator
 management:
   endpoints:
     web:
       exposure:
-        include: info, health
+        include: info, health, env, flyway, loggers, mappings, prometheus
   endpoint:
     health:
       probes:
@@ -49,6 +50,9 @@ management:
       enabled: true
     env:
       enabled: true
+  metrics:
+    tags:
+      application: ${spring.application.name}
 
 bookstore:
   greet: Hello catalog at local
