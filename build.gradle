@@ -41,6 +41,7 @@ dependencies {
 
     runtimeOnly 'org.postgresql:postgresql'
     runtimeOnly 'io.micrometer:micrometer-registry-prometheus'
+    runtimeOnly 'io.github.resilience4j:resilience4j-micrometer'
 
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
 
