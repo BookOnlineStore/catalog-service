@@ -49,3 +49,6 @@ management:
       enabled: true
     env:
       enabled: true
+
+bookstore:
+  greet: Hello catalog at local
