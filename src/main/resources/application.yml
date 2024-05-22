@@ -31,6 +31,10 @@ info:
   system: Bookstore system
   custom: ${bookstore.greet}
 
+logging:
+  pattern:
+    level: "%5p [${spring.application.name}, %X{trace_id}, %{span_id}]"
+
 # Actuator
 management:
   endpoints:
