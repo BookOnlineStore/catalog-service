@@ -29,7 +29,6 @@ spring:
 # Info system
 info:
   system: Bookstore system
-  custom: ${bookstore.greet}
 
 logging:
   pattern:
