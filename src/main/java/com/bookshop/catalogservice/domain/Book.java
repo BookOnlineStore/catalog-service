@@ -17,6 +17,7 @@ public record Book(
         @Size(max = 255, message = "The title too long")
         String title,
         @NotBlank(message = "The author of book must not be null or blank.")
+        @Size(max = 255, message = "Author name is too long")
         String author,
         @NotNull(message = "The price of book must not be null.")
         @Positive(message = "Value of price must greater than zero")

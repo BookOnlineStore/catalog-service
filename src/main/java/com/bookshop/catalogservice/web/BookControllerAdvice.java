@@ -9,8 +9,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @RestControllerAdvice
 public class BookControllerAdvice {
@@ -29,12 +28,12 @@ public class BookControllerAdvice {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public Map<String, String> constraintsViolationHandler(MethodArgumentNotValidException ex) {
-        var errors = new HashMap<String, String>();
+    public List<ErrorResponse> constraintsViolationHandler(MethodArgumentNotValidException ex) {
+        var errors = new ArrayList<ErrorResponse>();
         ex.getBindingResult().getAllErrors().forEach(objectError -> {
             String fieldError = ((FieldError) objectError).getField();
             String msg = objectError.getDefaultMessage();
-            errors.put(fieldError, msg);
+            errors.add(new ErrorResponse(fieldError, msg));
         });
         return errors;
     }
