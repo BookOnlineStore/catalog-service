@@ -42,24 +42,24 @@ class CatalogServiceApplicationTests {
     @Container
     private static final KeycloakContainer keycloakContainer =
             new KeycloakContainer("quay.io/keycloak/keycloak:23.0")
-                    .withRealmImportFile("test-realm-config.json");
+                    .withRealmImportFile("bookstore-realm.json");
 
     @DynamicPropertySource
     static void keycloakProperties(DynamicPropertyRegistry registry) {
         registry.add("spring.security.oauth2.resourceserver.jwt.issuer-uri",
-                () -> keycloakContainer.getAuthServerUrl() + "realms/BookOnlineStore");
+                () -> keycloakContainer.getAuthServerUrl() + "realms/bookstore");
     }
 
     @BeforeAll
     static void generateAccessToken() {
         WebClient webClient = WebClient.builder()
                 .baseUrl(keycloakContainer.getAuthServerUrl() +
-                        "/realms/BookOnlineStore/protocol/openid-connect/token")
+                        "/realms/bookstore/protocol/openid-connect/token")
                 .defaultHeader(HttpHeaders.CONTENT_TYPE,
                         MediaType.APPLICATION_FORM_URLENCODED_VALUE)
                 .build();
-        employeeToken = authenticateWith("employee", "password", webClient);
-        customerToken = authenticateWith("customer", "password", webClient);
+        employeeToken = authenticateWith("employee", "1", webClient);
+        customerToken = authenticateWith("user", "1", webClient);
     }
 
     @AfterEach
@@ -193,7 +193,8 @@ class CatalogServiceApplicationTests {
         return webClient
                 .post()
                 .body(BodyInserters.fromFormData("grant_type", "password")
-                        .with("client_id", "bookstore-test")
+                        .with("client_id", "edge-service")
+                        .with("client_secret", "cT5pq7W3XStcuFVQMhjPbRj57Iqxcu4n")
                         .with("username", username)
                         .with("password", password)
                 )
