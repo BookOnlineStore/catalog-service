@@ -24,7 +24,7 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: http://localhost:8080/realms/BookOnlineStore
+          issuer-uri: http://localhost:8080/realms/bookstore
 
 # Info system
 info:
