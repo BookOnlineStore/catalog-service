@@ -33,8 +33,12 @@ public class BookRepositoryTests {
 
     @Test
     void findAllBook() {
-        var book1 = Book.of("1234567890", "Title 1", "Author 1", 9.90);
-        var book2 = Book.of("1234567891", "Title 2", "Author 2", 9.90);
+        var book1 = Book.of("1234567890", "Title 1", "Author 1",
+                "Publisher 1", "Supplier 1", 19.02, Language.ENGLISH,
+                CoverType.PAPERBACK, 25, new Measure(120, 180, 10, 200));
+        var book2 = Book.of("1234567891", "Title 1", "Author 1",
+                "Publisher 1", "Supplier 1", 19.02, Language.ENGLISH,
+                CoverType.PAPERBACK, 25, new Measure(120, 180, 10, 200));
         jdbcAggregateTemplate.save(book1);
         jdbcAggregateTemplate.save(book2);
 
@@ -47,8 +51,12 @@ public class BookRepositoryTests {
 
     @Test
     void findBookByIsbn() {
-        var book1 = Book.of("1234567892", "Title 1", "Author 1", 9.90);
-        var book2 = Book.of("1234567893", "Title 2", "Author 2", 9.90);
+        var book1 = Book.of("1234567890", "Title 1", "Author 1",
+                "Publisher 1", "Supplier 1", 19.02, Language.ENGLISH,
+                CoverType.PAPERBACK, 25, new Measure(120, 180, 10, 200));
+        var book2 = Book.of("1234567891", "Title 1", "Author 1",
+                "Publisher 1", "Supplier 1", 19.02, Language.ENGLISH,
+                CoverType.PAPERBACK, 25, new Measure(120, 180, 10, 200));
         jdbcAggregateTemplate.save(book1);
         jdbcAggregateTemplate.save(book2);
 
@@ -60,8 +68,12 @@ public class BookRepositoryTests {
 
     @Test
     void deleteBookByIsbn() {
-        var book1 = Book.of("1234567890", "Title 1", "Author 1", 9.90);
-        var book2 = Book.of("1234567891", "Title 2", "Author 2", 9.90);
+        var book1 = Book.of("1234567890", "Title 1", "Author 1",
+                "Publisher 1", "Supplier 1", 19.02, Language.ENGLISH,
+                CoverType.PAPERBACK, 25, new Measure(120, 180, 10, 200));
+        var book2 = Book.of("1234567891", "Title 1", "Author 1",
+                "Publisher 1", "Supplier 1", 19.02, Language.ENGLISH,
+                CoverType.PAPERBACK, 25, new Measure(120, 180, 10, 200));
         jdbcAggregateTemplate.save(book1);
         jdbcAggregateTemplate.save(book2);
 

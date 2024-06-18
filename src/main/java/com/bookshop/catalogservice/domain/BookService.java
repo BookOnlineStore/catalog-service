@@ -5,6 +5,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class BookService {
@@ -44,13 +46,21 @@ public class BookService {
                     var bookUpdate = new Book(
                             bookPersist.id(),
                             bookPersist.isbn(),
-                            book.title(),
-                            book.author(),
-                            book.price(),
+                            Optional.ofNullable(book.title()).orElse(bookPersist.title()),
+                            Optional.ofNullable(book.author()).orElse(bookPersist.author()),
+                            Optional.ofNullable(book.publisher()).orElse(bookPersist.publisher()),
+                            Optional.ofNullable(book.supplier()).orElse(bookPersist.supplier()),
+                            Optional.ofNullable(book.description()).orElse(bookPersist.description()),
+                            Optional.ofNullable(book.price()).orElse(bookPersist.price()),
+                            Optional.ofNullable(book.language()).orElse(bookPersist.language()),
+                            Optional.ofNullable(book.coverType()).orElse(bookPersist.coverType()),
+                            Optional.ofNullable(book.numberOfPages()).orElse(bookPersist.numberOfPages()),
+                            Optional.ofNullable(book.measure()).orElse(bookPersist.measure()),
+                            Optional.ofNullable(book.photos()).orElse(bookPersist.photos()),
                             bookPersist.createdAt(),
                             bookPersist.createdBy(),
-                            bookPersist.lastModifiedAt(),
-                            bookPersist.lastModifiedBy(),
+                            null,
+                            null,
                             bookPersist.version()
                     );
                     return bookRepository.save(bookUpdate);

@@ -1,10 +1,13 @@
 package com.bookshop.catalogservice.web;
 
 import com.bookshop.catalogservice.domain.Book;
+import com.bookshop.catalogservice.domain.Book.OnCreate;
+import com.bookshop.catalogservice.domain.Book.OnUpdate;
 import com.bookshop.catalogservice.domain.BookService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -31,13 +34,13 @@ public class BookController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Book createBook(@Valid @RequestBody Book book) {
+    public Book createBook(@Validated(OnCreate.class) @RequestBody Book book) {
         log.info("BookController attempt to create book");
         return bookService.addBookToCatalog(book);
     }
 
     @PutMapping("{isbn}")
-    public Book updateBookByIsbn(@PathVariable String isbn, @Valid @RequestBody Book book) {
+    public Book updateBookByIsbn(@PathVariable String isbn, @Validated(OnUpdate.class) @RequestBody Book book) {
         log.info("BookController attempt to update book with isbn {}", isbn);
         return bookService.editBookDetail(isbn, book);
     }

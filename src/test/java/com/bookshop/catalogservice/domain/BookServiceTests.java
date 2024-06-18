@@ -24,7 +24,9 @@ public class BookServiceTests {
     @Test
     void whenBookToReadAllAreadyExistsThenReturn() {
         String isbn = "1234567890";
-        var book = Book.of(isbn, "Title", "Author", 9.90);
+        var book = Book.of("1234567890", "Title 1", "Author 1",
+                "Publisher 1", "Supplier 1", 19.02, Language.ENGLISH,
+                CoverType.PAPERBACK, 25, new Measure(120, 180, 10, 200));
         Mockito.when(bookRepository.findAll())
                 .thenReturn(List.of(book, book, book));
 
@@ -45,7 +47,9 @@ public class BookServiceTests {
     @Test
     void whenBookToReadByIdFoundThenReturn() {
         String isbn = "1234567890";
-        var book = Book.of(isbn, "Title", "Author", 9.90);
+        var book = Book.of("1234567890", "Title 1", "Author 1",
+                "Publisher 1", "Supplier 1", 19.02, Language.ENGLISH,
+                CoverType.PAPERBACK, 25, new Measure(120, 180, 10, 200));
         Mockito.when(bookRepository.findByIsbn(isbn))
                 .thenReturn(Optional.of(book));
 
@@ -56,7 +60,9 @@ public class BookServiceTests {
     @Test
     void whenBookToCreateAlreadyExistsThenThrows() {
         String isbn = "1234567890";
-        var book = Book.of(isbn, "Title", "Author", 9.90);
+        var book = Book.of("1234567890", "Title 1", "Author 1",
+                "Publisher 1", "Supplier 1", 19.02, Language.ENGLISH,
+                CoverType.PAPERBACK, 25, new Measure(120, 180, 10, 200));
         Mockito.when(bookRepository.existsByIsbn(isbn)).thenReturn(true);
 
         Assertions.assertThatThrownBy(() -> bookService.addBookToCatalog(book))
@@ -67,7 +73,9 @@ public class BookServiceTests {
     @Test
     void whenBookToCreateDoesNotExistsThenCreated() {
         String isbn = "1234567890";
-        var book = Book.of(isbn, "Title", "Author", 9.90);
+        var book = Book.of("1234567890", "Title 1", "Author 1",
+                "Publisher 1", "Supplier 1", 19.02, Language.ENGLISH,
+                CoverType.PAPERBACK, 25, new Measure(120, 180, 10, 200));
         Mockito.when(bookRepository.existsByIsbn(isbn)).thenReturn(false);
         Mockito.when(bookRepository.save(book)).thenReturn(book);
 
@@ -79,22 +87,13 @@ public class BookServiceTests {
     void whenBookToUpdateAlreadyExistsThenUpdate() {
         String isbn = "1234567890";
         Instant now = Instant.now();
-        var bookPersisted = new Book(100l, isbn,
-                "Title",
-                "Author",
-                9.90, now,
-                "unknown", now,
-                "unknown",
-                0);
-        var bookNeedToUpdate = new Book(bookPersisted.id(), bookPersisted.isbn(),
-                "Title updated",
-                "Author updated",
-                19.90,
-                bookPersisted.createdAt(),
-                bookPersisted.createdBy(),
-                bookPersisted.lastModifiedAt(),
-                bookPersisted.lastModifiedBy(),
-                bookPersisted.version());
+        var bookPersisted = Book.of("1234567890", "Title 1", "Author 1",
+                "Publisher 1", "Supplier 1", 19.02, Language.ENGLISH,
+                CoverType.PAPERBACK, 25, new Measure(120, 180, 10, 200));
+        var bookNeedToUpdate = Book.of(bookPersisted.isbn(), "Title updated", "Author updated",
+                bookPersisted.publisher(), bookPersisted.supplier(), bookPersisted.description(), 19.90, bookPersisted.language(),
+                bookPersisted.coverType(), bookPersisted.numberOfPages(),
+                bookPersisted.measure());
         // mock value when find by isbn
         Mockito.when(bookRepository.findByIsbn(isbn))
                 .thenReturn(Optional.of(bookPersisted));

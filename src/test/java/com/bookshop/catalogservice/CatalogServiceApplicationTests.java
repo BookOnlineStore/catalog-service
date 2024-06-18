@@ -1,7 +1,6 @@
 package com.bookshop.catalogservice;
 
-import com.bookshop.catalogservice.domain.Book;
-import com.bookshop.catalogservice.domain.BookRepository;
+import com.bookshop.catalogservice.domain.*;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.junit.jupiter.api.AfterEach;
@@ -69,7 +68,9 @@ class CatalogServiceApplicationTests {
 
     @Test
     void whenGetRequestWithIdThenBookReturned() {
-        var book = Book.of("1234567890", "Title", "Author", 19.0);
+        var book = Book.of("1234567891", "Title 1", "Author 1",
+                "Publisher 1", "Supplier 1", 19.02, Language.ENGLISH,
+                CoverType.PAPERBACK, 25, new Measure(120, 180, 10, 200));
         webTestClient
                 .post().uri("/books")
                 .bodyValue(book)
@@ -90,7 +91,9 @@ class CatalogServiceApplicationTests {
 
     @Test
     void whenPostRequestThenBookCreated() {
-        var book = Book.of("1234567891", "Title", "Author", 19.0);
+        var book = Book.of("1234567891", "Title 1", "Author 1",
+                "Publisher 1", "Supplier 1", 19.02, Language.ENGLISH,
+                CoverType.PAPERBACK, 25, new Measure(120, 180, 10, 200));
         webTestClient
                 .post().uri("/books")
                 .headers(httpHeaders ->
@@ -104,7 +107,9 @@ class CatalogServiceApplicationTests {
 
     @Test
     void whenPostRequestUnauthenticatedThen401() {
-        var expectedBook = Book.of("1234567890", "Title", "Author", 9.90);
+        var expectedBook = Book.of("1234567891", "Title 1", "Author 1",
+                "Publisher 1", "Supplier 1", 19.02, Language.ENGLISH,
+                CoverType.PAPERBACK, 25, new Measure(120, 180, 10, 200));
 
         webTestClient
                 .post()
@@ -116,7 +121,9 @@ class CatalogServiceApplicationTests {
 
     @Test
     void whenPostRequestUnauthorizedThen403() {
-        var expectedBook = Book.of("1234567890", "Title", "Author", 9.90);
+        var expectedBook = Book.of("1234567891", "Title 1", "Author 1",
+                "Publisher 1", "Supplier 1", 19.02, Language.ENGLISH,
+                CoverType.PAPERBACK, 25, new Measure(120, 180, 10, 200));
 
         webTestClient
                 .post()
@@ -130,7 +137,9 @@ class CatalogServiceApplicationTests {
     @Test
     void whenPutRequestThenBookUpdated() {
         String isbn = "1234567892";
-        var book = Book.of(isbn, "Title", "Author", 19.0);
+        var book = Book.of(isbn, "Title 1", "Author 1",
+                "Publisher 1", "Supplier 1", 19.02, Language.ENGLISH,
+                CoverType.PAPERBACK, 25, new Measure(120, 180, 10, 200));
         webTestClient
                 .post().uri("/books")
                 .headers(headers -> headers.setBearerAuth(employeeToken.accessToken()))
@@ -140,8 +149,9 @@ class CatalogServiceApplicationTests {
                 .expectBody(Book.class)
                 .value(actualBook -> Objects.requireNonNull(actualBook.id()));
 
-        var bookUpdate = Book.of(isbn, "Another title",
-                "Another author", 19.0);
+        var bookUpdate = Book.of(isbn, "Another title", "Another author",
+                null, null, 19.0, null,
+                null, null, null);
         webTestClient
                 .put().uri("/books/{isbn}", isbn)
                 .bodyValue(bookUpdate)
@@ -155,7 +165,9 @@ class CatalogServiceApplicationTests {
     @Test
     void whenDeleteRequestThenDeleted() {
         String isbn = "1234567893";
-        var book = Book.of(isbn, "Title", "Author", 19.0);
+        var book = Book.of(isbn, "Title 1", "Author 1",
+                "Publisher 1", "Supplier 1", 19.02, Language.ENGLISH,
+                CoverType.PAPERBACK, 25, new Measure(120, 180, 10, 200));
         webTestClient
                 .post().uri("/books")
                 .bodyValue(book)
