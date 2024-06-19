@@ -1,7 +1,7 @@
-package com.bookshop.catalogservice.domain;
+package com.bookshop.catalogservice.book;
 
-import com.bookshop.catalogservice.domain.Book.OnCreate;
-import com.bookshop.catalogservice.domain.Book.OnUpdate;
+import com.bookshop.catalogservice.book.Book.OnCreate;
+import com.bookshop.catalogservice.book.Book.OnUpdate;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;

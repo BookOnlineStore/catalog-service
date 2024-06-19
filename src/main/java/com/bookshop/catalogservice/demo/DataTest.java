@@ -1,7 +1,6 @@
 package com.bookshop.catalogservice.demo;
 
-import com.bookshop.catalogservice.domain.*;
-import lombok.RequiredArgsConstructor;
+import com.bookshop.catalogservice.book.*;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.annotation.Profile;
 import org.springframework.context.event.EventListener;
@@ -11,10 +10,13 @@ import java.util.List;
 
 @Component
 @Profile("datatest")
-@RequiredArgsConstructor
 public class DataTest {
 
     private final BookRepository bookRepository;
+
+    public DataTest(BookRepository bookRepository) {
+        this.bookRepository = bookRepository;
+    }
 
     @EventListener(ApplicationReadyEvent.class)
     public void setupDataTest() {

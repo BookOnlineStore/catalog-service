@@ -1,0 +1,29 @@
+package com.bookshop.catalogservice.config;
+
+import com.bookshop.catalogservice.book.Book;
+import com.bookshop.catalogservice.book.BookRepository;
+import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
+import org.springframework.data.rest.core.mapping.RepositoryDetectionStrategy.RepositoryDetectionStrategies;
+import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurer;
+import org.springframework.stereotype.Component;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+
+@Component
+public class SpringDataRestConfiguration implements RepositoryRestConfigurer {
+
+    /**
+     * @param config
+     * @param cors
+     */
+    @Override
+    public void configureRepositoryRestConfiguration(RepositoryRestConfiguration config,
+                                                     CorsRegistry cors) {
+
+        config
+                .setRepositoryDetectionStrategy(RepositoryDetectionStrategies.ANNOTATED)
+                .withEntityLookup()
+                .forRepository(BookRepository.class)
+                .withIdMapping(Book::getIsbn)
+                .withLookup(BookRepository::findByIsbn);
+    }
+}

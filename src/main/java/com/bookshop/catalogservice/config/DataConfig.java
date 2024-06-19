@@ -7,6 +7,8 @@ import org.springframework.data.jdbc.repository.config.EnableJdbcAuditing;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.core.oidc.StandardClaimNames;
+import org.springframework.security.oauth2.jwt.Jwt;
 
 import java.util.Optional;
 
@@ -19,7 +21,8 @@ public class DataConfig {
         return () -> Optional.ofNullable(SecurityContextHolder.getContext())
                 .map(SecurityContext::getAuthentication)
                 .filter(Authentication::isAuthenticated)
-                .map(Authentication::getName);
+                .map(authentication -> (Jwt) authentication.getPrincipal())
+                .map(jwt -> jwt.getClaim(StandardClaimNames.PREFERRED_USERNAME));
     }
 
 }

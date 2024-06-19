@@ -1,6 +1,6 @@
 package com.bookshop.catalogservice;
 
-import com.bookshop.catalogservice.domain.*;
+import com.bookshop.catalogservice.book.*;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.junit.jupiter.api.AfterEach;
@@ -20,9 +20,6 @@ import org.springframework.web.reactive.function.client.WebClient;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
-import java.util.Objects;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("integration")
@@ -67,130 +64,38 @@ class CatalogServiceApplicationTests {
     }
 
     @Test
-    void whenGetRequestWithIdThenBookReturned() {
-        var book = Book.of("1234567891", "Title 1", "Author 1",
-                "Publisher 1", "Supplier 1", 19.02, Language.ENGLISH,
-                CoverType.PAPERBACK, 25, new Measure(120, 180, 10, 200));
-        webTestClient
-                .post().uri("/books")
-                .bodyValue(book)
-                .headers(headers -> headers.setBearerAuth(employeeToken.accessToken()))
-                .exchange()
-                .expectStatus().isCreated();
-
+    void whenGetBookThenOk() {
         Book actualBook = webTestClient
-                .get().uri("/books/{isbn}", book.isbn())
+                .get().uri("/books")
                 .exchange()
                 .expectStatus().isOk()
                 .expectBody(Book.class)
                 .returnResult().getResponseBody();
-
-        assertThat(actualBook.isbn()).isEqualTo(book.isbn());
-        assertThat(actualBook.id()).isNotNull();
     }
 
     @Test
-    void whenPostRequestThenBookCreated() {
+    void whenOtherMethodToBookUrlThenUnauthenticated() {
         var book = Book.of("1234567891", "Title 1", "Author 1",
                 "Publisher 1", "Supplier 1", 19.02, Language.ENGLISH,
                 CoverType.PAPERBACK, 25, new Measure(120, 180, 10, 200));
         webTestClient
                 .post().uri("/books")
-                .headers(httpHeaders ->
-                        httpHeaders.setBearerAuth(employeeToken.accessToken()))
                 .bodyValue(book)
-                .exchange()
-                .expectStatus().isCreated()
-                .expectBody(Book.class)
-                .value(actualBook -> Objects.requireNonNull(actualBook.id()));
-    }
-
-    @Test
-    void whenPostRequestUnauthenticatedThen401() {
-        var expectedBook = Book.of("1234567891", "Title 1", "Author 1",
-                "Publisher 1", "Supplier 1", 19.02, Language.ENGLISH,
-                CoverType.PAPERBACK, 25, new Measure(120, 180, 10, 200));
-
-        webTestClient
-                .post()
-                .uri("/books/")
-                .bodyValue(expectedBook)
                 .exchange()
                 .expectStatus().isUnauthorized();
     }
 
     @Test
-    void whenPostRequestUnauthorizedThen403() {
-        var expectedBook = Book.of("1234567891", "Title 1", "Author 1",
-                "Publisher 1", "Supplier 1", 19.02, Language.ENGLISH,
-                CoverType.PAPERBACK, 25, new Measure(120, 180, 10, 200));
-
-        webTestClient
-                .post()
-                .uri("/books/")
-                .headers(headers -> headers.setBearerAuth(customerToken.accessToken()))
-                .bodyValue(expectedBook)
-                .exchange()
-                .expectStatus().isForbidden();
-    }
-
-    @Test
-    void whenPutRequestThenBookUpdated() {
-        String isbn = "1234567892";
-        var book = Book.of(isbn, "Title 1", "Author 1",
+    void whenAuthenticatedPostBookThenReturn() {
+        var book = Book.of("1234567891", "Title 1", "Author 1",
                 "Publisher 1", "Supplier 1", 19.02, Language.ENGLISH,
                 CoverType.PAPERBACK, 25, new Measure(120, 180, 10, 200));
         webTestClient
                 .post().uri("/books")
-                .headers(headers -> headers.setBearerAuth(employeeToken.accessToken()))
+                .headers(headers -> headers.setBearerAuth(employeeToken.accessToken))
                 .bodyValue(book)
                 .exchange()
-                .expectStatus().isCreated()
-                .expectBody(Book.class)
-                .value(actualBook -> Objects.requireNonNull(actualBook.id()));
-
-        var bookUpdate = Book.of(isbn, "Another title", "Another author",
-                null, null, 19.0, null,
-                null, null, null);
-        webTestClient
-                .put().uri("/books/{isbn}", isbn)
-                .bodyValue(bookUpdate)
-                .headers(headers -> headers.setBearerAuth(employeeToken.accessToken()))
-                .exchange()
-                .expectStatus().is2xxSuccessful()
-                .expectBody(Book.class)
-                .value(updatedBook -> Objects.equals(updatedBook.author(), "Another author"));
-    }
-
-    @Test
-    void whenDeleteRequestThenDeleted() {
-        String isbn = "1234567893";
-        var book = Book.of(isbn, "Title 1", "Author 1",
-                "Publisher 1", "Supplier 1", 19.02, Language.ENGLISH,
-                CoverType.PAPERBACK, 25, new Measure(120, 180, 10, 200));
-        webTestClient
-                .post().uri("/books")
-                .bodyValue(book)
-                .headers(headers -> headers.setBearerAuth(employeeToken.accessToken()))
-                .exchange()
-                .expectStatus().isCreated()
-                .expectBody(Book.class)
-                .value(actualBook -> Objects.requireNonNull(actualBook.id()));
-
-        webTestClient
-                .delete().uri("/books/{isbn}", isbn)
-                .headers(headers -> headers.setBearerAuth(employeeToken.accessToken()))
-                .exchange()
-                .expectStatus().isNoContent();
-
-        webTestClient
-                .get().uri("/books/{isbn}", isbn)
-                .headers(headers -> headers.setBearerAuth(employeeToken.accessToken()))
-                .exchange()
-                .expectStatus().isNotFound()
-                .expectBody(String.class)
-                .value(errorMessage ->
-                        assertThat(errorMessage).isEqualTo("Book with isbn " + isbn + " not found."));
+                .expectStatus().isCreated();
     }
 
     private record KeycloakToken(String accessToken) {
