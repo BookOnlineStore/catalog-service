@@ -16,6 +16,10 @@ import java.util.Optional;
 @RepositoryRestResource(path = "books")
 @Repository
 public interface BookRepository extends CrudRepository<Book, Long> {
+
+    @RestResource(exported = false)
+    boolean existsByIsbn(String isbn);
+
     Page<Book> findAll(Pageable pageable);
 
     @RestResource(path = "isbn")

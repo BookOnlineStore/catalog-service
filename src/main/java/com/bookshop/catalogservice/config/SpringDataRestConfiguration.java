@@ -3,6 +3,7 @@ package com.bookshop.catalogservice.config;
 import com.bookshop.catalogservice.book.Book;
 import com.bookshop.catalogservice.book.BookRepository;
 import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
+import org.springframework.data.rest.core.mapping.ExposureConfiguration;
 import org.springframework.data.rest.core.mapping.RepositoryDetectionStrategy.RepositoryDetectionStrategies;
 import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurer;
 import org.springframework.stereotype.Component;
@@ -19,6 +20,9 @@ public class SpringDataRestConfiguration implements RepositoryRestConfigurer {
     public void configureRepositoryRestConfiguration(RepositoryRestConfiguration config,
                                                      CorsRegistry cors) {
 
+        ExposureConfiguration exposureConfiguration = config.getExposureConfiguration();
+        exposureConfiguration.disablePutOnItemResources();
+
         config
                 .setRepositoryDetectionStrategy(RepositoryDetectionStrategies.ANNOTATED)
                 .withEntityLookup()
@@ -26,4 +30,5 @@ public class SpringDataRestConfiguration implements RepositoryRestConfigurer {
                 .withIdMapping(Book::getIsbn)
                 .withLookup(BookRepository::findByIsbn);
     }
+
 }

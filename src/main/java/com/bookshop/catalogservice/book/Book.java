@@ -1,9 +1,11 @@
 package com.bookshop.catalogservice.book;
 
 import org.springframework.data.annotation.*;
+import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Embedded;
 import org.springframework.data.relational.core.mapping.Table;
 
+import javax.validation.Valid;
 import javax.validation.constraints.*;
 import java.time.Instant;
 import java.util.List;
@@ -14,45 +16,46 @@ public class Book {
     @Id
     private Long id;
 
-    @NotBlank(groups = OnCreate.class, message = "The isbn of book must not be null or blank.")
-    @Pattern(groups = {OnCreate.class, OnUpdate.class}, regexp = "^([0-9]{10}|[0-9]{13})$", message = "The ISBN must be valid")
+    @NotBlank(message = "The isbn of book must not be null or blank.")
+    @Pattern(regexp = "^([0-9]{10}|[0-9]{13})$", message = "The ISBN must be valid")
     private String isbn;
 
-    @NotBlank(groups = OnCreate.class, message = "The title of book must not be null or blank.")
-    @Size(groups = {OnCreate.class, OnUpdate.class}, max = 255, message = "The title too long")
+    @NotBlank(message = "The title of book must not be null or blank.")
+    @Size(max = 255, message = "The title too long")
     private String title;
 
-    @NotBlank(groups = OnCreate.class, message = "The author of book must not be null or blank.")
-    @Size(groups = {OnCreate.class, OnUpdate.class}, max = 255, message = "The author name is too long")
+    @NotBlank(message = "The author of book must not be null or blank.")
+    @Size(max = 255, message = "The author name is too long")
     private String author;
 
-    @NotBlank(groups = OnCreate.class, message = "The publisher of book must not be null or blank.")
-    @Size(groups = {OnCreate.class, OnUpdate.class}, max = 255, message = "The publisher name is too long")
+    @NotBlank(message = "The publisher of book must not be null or blank.")
+    @Size(max = 255, message = "The publisher name is too long")
     private String publisher;
 
-    @NotBlank(groups = OnCreate.class, message = "The supplier of book must not be null or blank.")
-    @Size(groups = {OnCreate.class, OnUpdate.class}, max = 255, message = "The supplier name is too long")
+    @NotBlank(message = "The supplier of book must not be null or blank.")
+    @Size(max = 255, message = "The supplier name is too long")
     private String supplier;
 
     private String description;
 
-    @NotNull(groups = OnCreate.class, message = "The price of book must not be null.")
-    @Positive(groups = {OnCreate.class, OnUpdate.class}, message = "Value of price must greater than zero")
+    @NotNull(message = "The price of book must not be null.")
+    @Positive(message = "Value of price must greater than zero")
     private Double price;
 
-    @NotNull(groups = OnCreate.class, message = "The language of book must not be null.")
+    @NotNull(message = "The language of book must not be null.")
     private Language language;
 
-    @NotNull(groups = OnCreate.class, message = "The book cover type must not be null.")
+    @NotNull(message = "The book cover type must not be null.")
     private CoverType coverType;
 
-    @NotNull(groups = OnCreate.class, message = "The number of pages of book must not be null.")
-    @Min(groups = {OnCreate.class, OnUpdate.class}, value = 3, message = "The number of pages must greater than 3")
-    @Max(groups = {OnCreate.class, OnUpdate.class}, value = 3000, message = "The number of pages must less than 3000")
+    @NotNull(message = "The number of pages of book must not be null.")
+    @Min(value = 3, message = "The number of pages must greater than 3")
+    @Max(value = 3000, message = "The number of pages must less than 3000")
     private Integer numberOfPages;
 
     @Embedded(onEmpty = Embedded.OnEmpty.USE_NULL)
-    @NotNull(groups = OnCreate.class, message = "The measure of book must not be null.")
+    @NotNull(message = "The measure of book must not be null.")
+    @Valid
     private Measure measure;
 
     private List<String> photos;
@@ -71,9 +74,6 @@ public class Book {
 
     @Version
     private int version;
-
-    public interface OnCreate {}
-    public interface OnUpdate {}
 
     public Book() {
     }
@@ -128,43 +128,51 @@ public class Book {
         this.id = id;
     }
 
-    public @NotBlank(groups = OnCreate.class, message = "The isbn of book must not be null or blank.") @Pattern(groups = {OnCreate.class, OnUpdate.class}, regexp = "^([0-9]{10}|[0-9]{13})$", message = "The ISBN must be valid") String getIsbn() {
+    public @NotBlank(message = "The isbn of book must not be null or blank.") @Pattern(regexp = "^([0-9]{10}|[0-9]{13})$", message = "The ISBN must be valid") String getIsbn() {
         return isbn;
     }
 
-    public void setIsbn(@NotBlank(groups = OnCreate.class, message = "The isbn of book must not be null or blank.") @Pattern(groups = {OnCreate.class, OnUpdate.class}, regexp = "^([0-9]{10}|[0-9]{13})$", message = "The ISBN must be valid") String isbn) {
+    public void setIsbn(@NotBlank(message = "The isbn of book must not be null or blank.") @Pattern(regexp = "^([0-9]{10}|[0-9]{13})$", message = "The ISBN must be valid") String isbn) {
         this.isbn = isbn;
     }
 
-    public @NotBlank(groups = OnCreate.class, message = "The title of book must not be null or blank.") @Size(groups = {OnCreate.class, OnUpdate.class}, max = 255, message = "The title too long") String getTitle() {
+    public @NotBlank(message = "The title of book must not be null or blank.") @Size(max = 255, message = "The title too long") String getTitle() {
         return title;
     }
 
-    public void setTitle(@NotBlank(groups = OnCreate.class, message = "The title of book must not be null or blank.") @Size(groups = {OnCreate.class, OnUpdate.class}, max = 255, message = "The title too long") String title) {
+    public void setTitle(@NotBlank(message = "The title of book must not be null or blank.") @Size(max = 255, message = "The title too long") String title) {
         this.title = title;
     }
 
-    public @NotBlank(groups = OnCreate.class, message = "The author of book must not be null or blank.") @Size(groups = {OnCreate.class, OnUpdate.class}, max = 255, message = "The author name is too long") String getAuthor() {
+    public @NotBlank(message = "The author of book must not be null or blank.") @Size(max = 255, message = "The author name is too long") String getAuthor() {
         return author;
     }
 
-    public void setAuthor(@NotBlank(groups = OnCreate.class, message = "The author of book must not be null or blank.") @Size(groups = {OnCreate.class, OnUpdate.class}, max = 255, message = "The author name is too long") String author) {
+    public void setAuthor(@NotBlank(message = "The author of book must not be null or blank.") @Size(max = 255, message = "The author name is too long") String author) {
         this.author = author;
     }
 
-    public @NotBlank(groups = OnCreate.class, message = "The publisher of book must not be null or blank.") @Size(groups = {OnCreate.class, OnUpdate.class}, max = 255, message = "The publisher name is too long") String getPublisher() {
+    public @NotBlank(message = "The publisher of book must not be null or blank.") @Size(max = 255, message = "The publisher name is too long") String getPublisher() {
         return publisher;
     }
 
-    public void setPublisher(@NotBlank(groups = OnCreate.class, message = "The publisher of book must not be null or blank.") @Size(groups = {OnCreate.class, OnUpdate.class}, max = 255, message = "The publisher name is too long") String publisher) {
+    public void setPublisher(@NotBlank(message = "The publisher of book must not be null or blank.") @Size(max = 255, message = "The publisher name is too long") String publisher) {
         this.publisher = publisher;
     }
 
-    public @NotBlank(groups = OnCreate.class, message = "The supplier of book must not be null or blank.") @Size(groups = {OnCreate.class, OnUpdate.class}, max = 255, message = "The supplier name is too long") String getSupplier() {
+    public @NotBlank(message = "The supplier of book must not be null or blank.") @Size(max = 255, message = "The supplier name is too long") String getSupplier() {
         return supplier;
     }
 
-    public void setSupplier(@NotBlank(groups = OnCreate.class, message = "The supplier of book must not be null or blank.") @Size(groups = {OnCreate.class, OnUpdate.class}, max = 255, message = "The supplier name is too long") String supplier) {
+    public Instant getCreatedAt() {
+        return createdAt;
+    }
+
+    public String getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setSupplier(@NotBlank(message = "The supplier of book must not be null or blank.") @Size(max = 255, message = "The supplier name is too long") String supplier) {
         this.supplier = supplier;
     }
 
@@ -176,43 +184,43 @@ public class Book {
         this.description = description;
     }
 
-    public @NotNull(groups = OnCreate.class, message = "The price of book must not be null.") @Positive(groups = {OnCreate.class, OnUpdate.class}, message = "Value of price must greater than zero") Double getPrice() {
+    public @NotNull(message = "The price of book must not be null.") @Positive(message = "Value of price must greater than zero") Double getPrice() {
         return price;
     }
 
-    public void setPrice(@NotNull(groups = OnCreate.class, message = "The price of book must not be null.") @Positive(groups = {OnCreate.class, OnUpdate.class}, message = "Value of price must greater than zero") Double price) {
+    public void setPrice(@NotNull(message = "The price of book must not be null.") @Positive(message = "Value of price must greater than zero") Double price) {
         this.price = price;
     }
 
-    public @NotNull(groups = OnCreate.class, message = "The language of book must not be null.") Language getLanguage() {
+    public @NotNull(message = "The language of book must not be null.") Language getLanguage() {
         return language;
     }
 
-    public void setLanguage(@NotNull(groups = OnCreate.class, message = "The language of book must not be null.") Language language) {
+    public void setLanguage(@NotNull(message = "The language of book must not be null.") Language language) {
         this.language = language;
     }
 
-    public @NotNull(groups = OnCreate.class, message = "The book cover type must not be null.") CoverType getCoverType() {
+    public @NotNull(message = "The book cover type must not be null.") CoverType getCoverType() {
         return coverType;
     }
 
-    public void setCoverType(@NotNull(groups = OnCreate.class, message = "The book cover type must not be null.") CoverType coverType) {
+    public void setCoverType(@NotNull(message = "The book cover type must not be null.") CoverType coverType) {
         this.coverType = coverType;
     }
 
-    public @NotNull(groups = OnCreate.class, message = "The number of pages of book must not be null.") @Min(groups = {OnCreate.class, OnUpdate.class}, value = 3, message = "The number of pages must greater than 3") @Max(groups = {OnCreate.class, OnUpdate.class}, value = 3000, message = "The number of pages must less than 3000") Integer getNumberOfPages() {
+    public @NotNull(message = "The number of pages of book must not be null.") @Min(value = 3, message = "The number of pages must greater than 3") @Max(value = 3000, message = "The number of pages must less than 3000") Integer getNumberOfPages() {
         return numberOfPages;
     }
 
-    public void setNumberOfPages(@NotNull(groups = OnCreate.class, message = "The number of pages of book must not be null.") @Min(groups = {OnCreate.class, OnUpdate.class}, value = 3, message = "The number of pages must greater than 3") @Max(groups = {OnCreate.class, OnUpdate.class}, value = 3000, message = "The number of pages must less than 3000") Integer numberOfPages) {
+    public void setNumberOfPages(@NotNull(message = "The number of pages of book must not be null.") @Min(value = 3, message = "The number of pages must greater than 3") @Max(value = 3000, message = "The number of pages must less than 3000") Integer numberOfPages) {
         this.numberOfPages = numberOfPages;
     }
 
-    public @NotNull(groups = OnCreate.class, message = "The measure of book must not be null.") Measure getMeasure() {
+    public @NotNull(message = "The measure of book must not be null.") Measure getMeasure() {
         return measure;
     }
 
-    public void setMeasure(@NotNull(groups = OnCreate.class, message = "The measure of book must not be null.") Measure measure) {
+    public void setMeasure(@NotNull(message = "The measure of book must not be null.") Measure measure) {
         this.measure = measure;
     }
 
@@ -222,22 +230,6 @@ public class Book {
 
     public void setPhotos(List<String> photos) {
         this.photos = photos;
-    }
-
-    public Instant getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Instant createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public String getCreatedBy() {
-        return createdBy;
-    }
-
-    public void setCreatedBy(String createdBy) {
-        this.createdBy = createdBy;
     }
 
     public Instant getLastModifiedAt() {
