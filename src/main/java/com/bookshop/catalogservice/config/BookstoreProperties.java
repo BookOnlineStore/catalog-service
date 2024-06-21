@@ -4,7 +4,13 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 
 @ConfigurationProperties(prefix = "bookstore")
 public record BookstoreProperties (
-        String greet
+        CloudinaryProperties cloudinary
 ) {
+    public record CloudinaryProperties(
+            String cloudName,
+            String apiKey,
+            String apiSecret
+    ) {
+    }
 
 }

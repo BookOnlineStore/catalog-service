@@ -61,4 +61,7 @@ management:
       application: ${spring.application.name}
 
 bookstore:
-  greet: Hello catalog at local
+  cloudinary:
+    cloud-name: dl0v8gbku
+    api-key: 862736244281148
+    api-secret: XuPt3no_rU3T5_fz_dCd5dhvOqo

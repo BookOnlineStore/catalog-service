@@ -1,5 +1,6 @@
 package com.bookshop.catalogservice.book;
 
+import com.bookshop.catalogservice.book.projection.PhotoProjection;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jdbc.repository.query.Modifying;
@@ -13,32 +14,87 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
+/**
+ * The interface Book repository.
+ */
 @RepositoryRestResource(path = "books")
 @Repository
 public interface BookRepository extends CrudRepository<Book, Long> {
 
+    /**
+     * Exists by isbn boolean.
+     *
+     * @param isbn the isbn
+     * @return the boolean
+     */
     @RestResource(exported = false)
     boolean existsByIsbn(String isbn);
 
+    /**
+     * Find all page.
+     *
+     * @param pageable the pageable
+     * @return the page
+     */
     Page<Book> findAll(Pageable pageable);
 
+    /**
+     * Find by isbn optional.
+     *
+     * @param query the query
+     * @return the optional
+     */
     @RestResource(path = "isbn")
     Optional<Book> findByIsbn(String query);
 
+    /**
+     * Find all by author containing page.
+     *
+     * @param query    the query
+     * @param pageable the pageable
+     * @return the page
+     */
     @RestResource(path = "authors")
     Page<Book> findAllByAuthorContaining(String query, Pageable pageable);
 
+    /**
+     * Find all by title containing page.
+     *
+     * @param query    the query
+     * @param pageable the pageable
+     * @return the page
+     */
     @RestResource(path = "titles")
     Page<Book> findAllByTitleContaining(String query, Pageable pageable);
 
+    /**
+     * Find all by publisher containing page.
+     *
+     * @param query    the query
+     * @param pageable the pageable
+     * @return the page
+     */
     @RestResource(path = "publishers")
     Page<Book> findAllByPublisherContaining(String query, Pageable pageable);
 
+    /**
+     * Find all by supplier containing page.
+     *
+     * @param query    the query
+     * @param pageable the pageable
+     * @return the page
+     */
     @RestResource(path = "suppliers")
-    Page<Book> findAllBySupplierContainingAndLanguage(String query, Language language, Pageable pageable);
+    Page<Book> findAllBySupplierContaining(String query, Pageable pageable);
 
+    /**
+     * Delete by isbn.
+     *
+     * @param isbn the isbn
+     */
     @Modifying
     @Transactional
     @Query("delete from books where isbn = :isbn")
     void deleteByIsbn(@Param("isbn") String isbn);
+
 }

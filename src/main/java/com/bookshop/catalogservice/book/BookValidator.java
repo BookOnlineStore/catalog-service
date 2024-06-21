@@ -1,8 +1,6 @@
-package com.bookshop.catalogservice.config;
+package com.bookshop.catalogservice.book;
 
 
-import com.bookshop.catalogservice.book.Book;
-import com.bookshop.catalogservice.book.BookRepository;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
