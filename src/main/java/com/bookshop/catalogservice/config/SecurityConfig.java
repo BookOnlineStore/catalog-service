@@ -20,7 +20,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorize -> authorize
                         .mvcMatchers("/actuator/**").permitAll()
                         .mvcMatchers(HttpMethod.GET, "/", "/books/**").permitAll()
-                        .anyRequest().hasRole("employee")
+                        .anyRequest().hasAnyRole("employee")
                 )
                 .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)
                 .sessionManagement(sessionManagement ->

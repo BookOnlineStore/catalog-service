@@ -97,4 +97,10 @@ public interface BookRepository extends CrudRepository<Book, Long> {
     @Query("delete from books where isbn = :isbn")
     void deleteByIsbn(@Param("isbn") String isbn);
 
+    @Query("update books set inventory = inventory - :quantity where isbn = :isbn")
+    @Modifying
+    @Transactional
+    @RestResource(exported = false)
+    void updateInventoryByIsbn(@Param("isbn") String isbn, @Param("quantity") Integer quantity);
+
 }
