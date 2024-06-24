@@ -76,7 +76,7 @@ class CatalogServiceApplicationTests {
     @Test
     void whenOtherMethodToBookUrlThenUnauthenticated() {
         var book = Book.of("1234567891", "Title 1", "Author 1",
-                "Publisher 1", "Supplier 1", 19.02, 3, Language.ENGLISH,
+                "Publisher 1", "Supplier 1", 210000L, 3, Language.ENGLISH,
                 CoverType.PAPERBACK, 25, new Measure(120, 180, 10, 200));
         webTestClient
                 .post().uri("/books")
@@ -88,7 +88,7 @@ class CatalogServiceApplicationTests {
     @Test
     void whenAuthenticatedPostBookThenReturn() {
         var book = Book.of("1234567891", "Title 1", "Author 1",
-                "Publisher 1", "Supplier 1", 19.02, 3, Language.ENGLISH,
+                "Publisher 1", "Supplier 1", 190000000L, 3, Language.ENGLISH,
                 CoverType.PAPERBACK, 25, new Measure(120, 180, 10, 200));
         webTestClient
                 .post().uri("/books")

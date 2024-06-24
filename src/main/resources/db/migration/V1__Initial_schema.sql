@@ -7,7 +7,7 @@ CREATE TABLE books
     publisher        varchar(255) NOT NULL,
     supplier         varchar(255) NOT NULL,
     description      text,
-    price            float8       NOT NULL,
+    price            bigint       NOT NULL,
     inventory        int          NOT NULL,
     language         varchar(255) NOT NULL,
     weight           float8       NOT NULL,

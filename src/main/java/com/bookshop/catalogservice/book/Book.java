@@ -40,7 +40,7 @@ public class Book {
 
     @NotNull(message = "The price of book must not be null.")
     @Positive(message = "Value of price must greater than zero")
-    private Double price;
+    private Long price;
 
     @NotNull(message = "The inventory of book must not be null.")
     @Min(value = 0, message = "The inventory must greater than 0")
@@ -82,7 +82,12 @@ public class Book {
     public Book() {
     }
 
-    public Book(Long id, String isbn, String title, String author, String publisher, String supplier, String description, Double price, Integer inventory, Language language, CoverType coverType, Integer numberOfPages, Measure measure, List<String> photos, Instant createdAt, String createdBy, Instant lastModifiedAt, String lastModifiedBy, int version) {
+    public Book(Long id, String isbn, String title, String author,
+                String publisher, String supplier, String description,
+                Long price, Integer inventory, Language language,
+                CoverType coverType, Integer numberOfPages,
+                Measure measure, List<String> photos, Instant createdAt,
+                String createdBy, Instant lastModifiedAt, String lastModifiedBy, int version) {
         this.id = id;
         this.isbn = isbn;
         this.title = title;
@@ -104,11 +109,11 @@ public class Book {
         this.version = version;
     }
 
-    public static Book of(String isbn, String title, String author, String publisher, String supplier, double price, int inventory, Language language, CoverType coverType, Integer numberOfPages, Measure measure) {
+    public static Book of(String isbn, String title, String author, String publisher, String supplier, Long price, int inventory, Language language, CoverType coverType, Integer numberOfPages, Measure measure) {
         return new Book(null, isbn, title, author, publisher, supplier, null, price, inventory, language, coverType, numberOfPages, measure, null, null, null, null, null, 0);
     }
 
-    public static Book of(String isbn, String title, String author, String publisher, String supplier, String description, double price, int  inventory, Language language, CoverType coverType, int numberOfPages, Measure measure) {
+    public static Book of(String isbn, String title, String author, String publisher, String supplier, String description, Long price, int  inventory, Language language, CoverType coverType, int numberOfPages, Measure measure) {
         return new Book(null, isbn, title, author, publisher, supplier, description, price, inventory, language, coverType, numberOfPages, measure, null, null, null, null, null, 0);
     }
 
@@ -189,11 +194,11 @@ public class Book {
         this.description = description;
     }
 
-    public @NotNull(message = "The price of book must not be null.") @Positive(message = "Value of price must greater than zero") Double getPrice() {
+    public @NotNull(message = "The price of book must not be null.") @Positive(message = "Value of price must greater than zero") Long getPrice() {
         return price;
     }
 
-    public void setPrice(@NotNull(message = "The price of book must not be null.") @Positive(message = "Value of price must greater than zero") Double price) {
+    public void setPrice(@NotNull(message = "The price of book must not be null.") @Positive(message = "Value of price must greater than zero") Long price) {
         this.price = price;
     }
 
