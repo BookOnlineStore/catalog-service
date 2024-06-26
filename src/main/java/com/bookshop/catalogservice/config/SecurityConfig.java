@@ -1,6 +1,7 @@
 package com.bookshop.catalogservice.config;
 
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -16,6 +17,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.Arrays;
 
+@Configuration
 @EnableWebSecurity
 public class SecurityConfig {
 
@@ -23,8 +25,8 @@ public class SecurityConfig {
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
                 .authorizeHttpRequests(authorize -> authorize
-                        .mvcMatchers("/actuator/**").permitAll()
-                        .mvcMatchers(HttpMethod.GET, "/", "/books/**").permitAll()
+                        .requestMatchers("/actuator/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/", "/books/**").permitAll()
                         .anyRequest().hasAnyRole("employee")
                 )
                 .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)
