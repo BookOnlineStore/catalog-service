@@ -28,6 +28,20 @@ spring:
   data:
     rest:
       default-page-size: 10
+  cloud:
+    function:
+      definition: reduceInventory
+    stream:
+      bindings:
+        reduceInventory-in-0:
+          destination: inventory-reduced
+          group: ${spring.application.name}
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: user
+    password: password
+    connection-timeout: 5s
 
 # Info system
 info:

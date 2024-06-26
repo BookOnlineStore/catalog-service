@@ -17,6 +17,7 @@ CREATE TABLE books
     height           float8       NOT NULL,
     thickness        float8       NOT NULL,
     photos           varchar(255)[],
+    purchases        int          NOT NULL,
     created_at       timestamp    NOT NULL,
     created_by       varchar(255),
     last_modified_at timestamp    NOT NULL,

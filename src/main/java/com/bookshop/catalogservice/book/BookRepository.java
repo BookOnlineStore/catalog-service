@@ -12,6 +12,7 @@ import org.springframework.data.rest.core.annotation.RestResource;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -97,10 +98,28 @@ public interface BookRepository extends CrudRepository<Book, Long> {
     @Query("delete from books where isbn = :isbn")
     void deleteByIsbn(@Param("isbn") String isbn);
 
+    /**
+     * Update inventory by isbn.
+     *
+     * @param isbn     the isbn
+     * @param quantity the quantity
+     */
     @Query("update books set inventory = inventory - :quantity where isbn = :isbn")
     @Modifying
     @Transactional
     @RestResource(exported = false)
     void updateInventoryByIsbn(@Param("isbn") String isbn, @Param("quantity") Integer quantity);
+
+
+    /**
+     * Find all book best seller list.
+     *
+     * @param size the size
+     * @param page the page
+     * @return the list
+     */
+    @Query("select * from books b order by b.purchases desc limit :size offset :page * :size")
+    @RestResource(exported = false)
+    List<Book> findAllBookBestSeller(int size, int page);
 
 }

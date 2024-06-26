@@ -52,7 +52,7 @@ public class PhotoController {
             List<String> urls = CloudinaryUtils.convertListMultipartFileToListUrl(photos, cloudinary);
             book.setPhotos(urls);
             return bookRepository.save(book);
-        }).orElseThrow(BookNotFoundException::new);
+        }).orElseThrow(() -> new BookNotFoundException(isbn));
         return EntityModel.of(bookUpdate,
                 entityLinks.linkToItemResource(Book.class, bookUpdate.getIsbn()).withSelfRel());
     }
