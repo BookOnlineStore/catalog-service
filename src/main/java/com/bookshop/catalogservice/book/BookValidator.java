@@ -4,8 +4,8 @@ package com.bookshop.catalogservice.book;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
-import javax.validation.ConstraintViolation;
-import javax.validation.Validation;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.Validation;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;

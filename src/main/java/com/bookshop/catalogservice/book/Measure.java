@@ -1,9 +1,9 @@
 package com.bookshop.catalogservice.book;
 
 
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 
 public record Measure(
         @NotNull(message = "The width of book must not be null")
