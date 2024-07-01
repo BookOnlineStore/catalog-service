@@ -2,6 +2,8 @@ package com.bookshop.catalogservice.config;
 
 import com.bookshop.catalogservice.book.Book;
 import com.bookshop.catalogservice.book.BookRepository;
+import com.bookshop.catalogservice.book.CartItem;
+import com.bookshop.catalogservice.book.CartItemRepository;
 import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
 import org.springframework.data.rest.core.mapping.ExposureConfiguration;
 import org.springframework.data.rest.core.mapping.RepositoryDetectionStrategy.RepositoryDetectionStrategies;
@@ -28,7 +30,11 @@ public class SpringDataRestConfiguration implements RepositoryRestConfigurer {
                 .withEntityLookup()
                 .forRepository(BookRepository.class)
                 .withIdMapping(Book::getIsbn)
-                .withLookup(BookRepository::findByIsbn);
+                .withLookup(BookRepository::findByIsbn)
+
+                .forRepository(CartItemRepository.class)
+                .withIdMapping(CartItem::getId)
+                .withLookup(CartItemRepository::findById);
     }
 
 }

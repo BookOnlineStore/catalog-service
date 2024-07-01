@@ -50,6 +50,10 @@ info:
 logging:
   pattern:
     level: "%5p [${spring.application.name},%X{trace_id},%X{span_id}]"
+  group:
+    datarest: org.springframework.data.rest
+  level:
+    datarest: INFO
 
 # Actuator
 management:

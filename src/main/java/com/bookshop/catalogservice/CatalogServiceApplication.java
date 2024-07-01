@@ -16,14 +16,6 @@ public class CatalogServiceApplication implements RepositoryRestConfigurer {
         SpringApplication.run(CatalogServiceApplication.class, args);
     }
 
-//    /**
-//     * @param v
-//     */
-//    @Override
-//    public void configureValidatingRepositoryEventListener(ValidatingRepositoryEventListener v, BookRepository bookRepository) {
-//        v.addValidator("beforeCreate", new BookValidator(bookRepository));
-//    }
-
     @Bean
     BookValidator beforeSaveBookValidator(BookRepository bookRepository) {
         return new BookValidator(bookRepository);
