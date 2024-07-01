@@ -6,8 +6,8 @@ import org.springframework.data.annotation.*;
 import org.springframework.data.relational.core.mapping.Embedded;
 import org.springframework.data.relational.core.mapping.Table;
 
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.*;
+import javax.validation.Valid;
+import javax.validation.constraints.*;
 import java.time.Instant;
 import java.util.List;
 

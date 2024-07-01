@@ -24,3 +24,15 @@ CREATE TABLE books
     last_modified_by varchar(255),
     version          int          NOT NULL
 );
+
+create table cart_items
+(
+    id                 serial       not null primary key,
+    isbn               varchar(255) not null,
+    quantity           integer      not null,
+    total_price        bigint       not null,
+    created_date       timestamp    NOT NULL,
+    created_by         varchar(255),
+    last_modified_date timestamp    NOT NULL,
+    last_modified_by   varchar(255)
+);
